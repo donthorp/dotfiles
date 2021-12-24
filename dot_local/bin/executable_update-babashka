@@ -1,0 +1,31 @@
+#! /usr/bin/env bb
+
+;; Simple script for updating babashka to latest
+;;
+;; Author: Don Thorp
+;; Created: 1 Dec 2021
+;;
+;; Source: https://github.com/babashka/babashka#installation
+;;
+;; $ curl -sLO https://raw.githubusercontent.com/babashka/babashka/master/install
+;; $ chmod +x install
+;; $ ./install
+
+(ns script
+  (:require
+   [babashka.curl :as curl]
+   [babashka.fs :as fs]
+   [clojure.java.shell :as shell :refer [sh]]
+   [clojure.string :as str]))
+
+(defn get-install [] (curl/get "https://raw.githubusercontent.com/babashka/babashka/master/install"))
+
+(defn bash [& args]
+  (sh "/usr/bin/env" "bash" "-c" (str "'" (str/join " " args) "'")))
+
+(let [install (fs/delete-on-exit (File/createTempFile "install" ""))]
+  (spit install (:body (get-install)))
+  (.setExecutable install true)
+  (let [r (sh (str install))]
+    (println (:out r))
+    (println (:err r))))
