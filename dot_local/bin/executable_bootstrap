@@ -1,7 +1,25 @@
 #! /usr/bin/env bash
 
+HOST=
+
 # Update the system
 sudo apt update && sudo apt upgrade -y
+
+echo "--------------------------------------------------------------------"
+
+sudo apt install -y snapd
+sudo snap install bw
+
+which chezmoi > /dev/null
+if [ $? -eq 1 ]
+then
+	echo "Installing chezmoi"
+	sudo snap install --stable --classic chezmoi
+fi
+
+echo "--------------------------------------------------------------------"
+
+POSTMSG=""
 
 # Install Babashka if it doesn't exit
 which bb > /dev/null
@@ -26,36 +44,76 @@ else
 	echo "rlwrap already installed...skipping"
 fi
 
-# TODO turn this into a script and require HOSTNAME as arg 1
-sudo hostnamectl set-hostname HOSTNAME
-sudo apt install -y snap
-sudo snap install bw
+if [ -n "$HOST" ]
+then
+	echo "Setting hostname to $HOST"
+	sudo hostnamectl set-hostname $HOST
+else
+	echo "Using existing hostname `hostname`"
+fi
 
 # Set up local secret storage
 export SECRETS_DIR=~/.local/secrets.d
 mkdir -p $SECRETS_DIR
-touch $SECRETS_DIR/bitwarden
-chmod 700 $SECRETS_DIR $SECRETS_DIR/bitwarden
-echo "export BW_CLIENTID=" | cat > $SECRETS_DIR/bitwarden
-echo "export BW_CLIENTSECRET=" | cat >> $SECRETS_DIR/bitwarden
+chmod 700 $SECRETS_DIR
+
+# Setup bitwarden configuration
+BITWARDEN_SECRETS=$SECRETS_DIR/bitwarden
+
+if [ ! -f "$BITWARDEN_SECRETS" ]
+then
+	touch $BITWARDEN_SECRETS
+	chmod 700 $BITWARDEN_SECRETS
+	echo "export BW_CLIENTID=" | cat > $BITWARDEN_SECRETS
+	echo "export BW_CLIENTSECRET=" | cat >> $BITWARDEN_SECRETS
+	POSTMSG="$POSTMSG\nIMPORTANT: Add secrets to $BITWARDEN_SECRETS"
+fi
 
 # Generate new github key pair for this machine
-ssh-keygen -t ed25519 -C "don@donthorp.net" -f ~/.ssh/`hostname`-github -N ""
-mkdir -p ~/.ssh/config.d
-chmod 700 ~/.ssh/config.d
+GITHUB_KEY=~/.ssh/`hostname`-github
+
+if [ ! -f $GITHUB_KEY ]
+then
+	echo Generating new github key $GITHUB_KEY
+	ssh-keygen -t ed25519 -C "don@donthorp.net" -f $GITHUB_KEY -N ""
+	POSTMSG="$POSTMSG\nVisit https://github.com/settings/keys and add this machines public key"
+	POSTMSG="$POSTMSG\n$(cat ~/.ssh/`hostname`-github.pub)"
+fi
+
+# Setup for having ~/.ssh/config generated in .bashrc 
+SSH_CONFIG_D=~/.ssh/config.d
+
+if [ ! -d "$SSH_CONFIG_D" ]
+then
+	mkdir -p $SSH_CONFIG_D
+	chmod 700 $SSH_CONFIG_D
+fi
+
+if [ ! -f "$SSH_CONFIG_D/github.com" ]
+then
 
 cat > ~/.ssh/config.d/github.com <<EOF
 Host github.com
   User git
   Port 22
   Hostname github.com
-  IdentityFile ~/.ssh/`hostname`-github.pub
+  IdentityFile $GITHUB_KEY.pub
   TCPKeepAlive yes
   IdentitiesOnly yes
   AddKeysToAgent yes
-EOF 
 
-echo Visit https://github.com/settings/keys and add this machines public key
-cat ~/.ssh/`hostname`-github.pub
+EOF
 
-sudo snap install --stable --classic chezmoi
+fi
+
+CHEZMOI_DIR=$(chezmoi source-path)
+
+if [ ! -d "$CHEZMOI_DIR" ]
+then
+	echo "--------------------------------------------------------------------"
+	chezmoi init git@github.com:donthorp/dotfiles.git
+	chezmoi diff
+fi
+
+echo "--------------------------------------------------------------------"
+printf "$POSTMSG\n"
