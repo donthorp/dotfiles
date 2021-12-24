@@ -1,0 +1,23 @@
+#! /usr/bin/env bash
+
+alias cz=chezmoi
+
+# I prefer macos clipboard CLI names
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+
+# At some point this should probably move to a script and cover apt, snap, and flatpak
+alias whats-new="sudo apt update && sudo apt list --upgradable"
+
+# Python
+export PIPX_BIN_DIR=~/bin
+
+alias python="/usr/bin/env python3"
+alias pip="/usr/bin/env pip3"
+
+# Tradeswell 
+alias tw-gh-repos="gh repo list Tradeswell --limit 100 | grep ^Tradeswell | cut -f 1 | sed -e 's/Tradeswell\///' | sort"
+alias tw-gh-settings-all="tw-gh-repos | xargs -n 1 -I % echo - \[ \] \[%\]\(https://github.com/Tradeswell/%/settings\) | pbcopy"
+
+alias tw-open-prs="gh repo list Tradeswell --limit=100 --json name,pullRequests | jq -r '.[] | select(.pullRequests .totalCount > 0) | .name + \" \" + (.pullRequests.totalCount | tostring)' | sort | awk 'BEGIN{printf \" PR  Repo\n---- --------------------\n\"} { printf \"%4d %-30s\n\", \$2, \$1 }'"
+
