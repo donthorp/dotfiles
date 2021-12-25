@@ -29,7 +29,7 @@ if [ ! $? -eq 0 ]; then
 fi
 
 if [ ! -f /etc/apt/sources.list.d/wavebox.list ]; then
-	echo "deb https://wavebox.io/dl/client/repo/ x86_64/" | sudo tee /etc/apt/sources.list.d/wavebox.list
+	echo "deb [arch=amd64] https://download.wavebox.app/stable/linux/deb/ amd64/" | sudo tee /etc/apt/sources.list.d/wavebox.list
 fi
 
 packages+=( wavebox )
