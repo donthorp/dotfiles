@@ -7,8 +7,8 @@ set -eufo pipefail
 
 echo "Configuring laptop to work with lid closed"
 
-gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action "nothing"
-gsettings set org.gnome.settings-daemon.plugins.power lid-close-suspend-with-external-monitor "nothing"
+gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action nothing
+gsettings set org.gnome.settings-daemon.plugins.power lid-close-suspend-with-external-monitor nothing
 
 {{- end }}
 {{- end }}
