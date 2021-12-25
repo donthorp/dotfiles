@@ -1,6 +1,12 @@
 {{- if (eq .chezmoi.os "linux") -}}
 
-{{- template bash-settings -}}
+{{- template "bash-settings.tmpl" -}}
 
-{{- template "chassis" -}}
-{{ end -}}
+{{- if (eq .chassis "laptop") -}}
+echo "LAPTOP"
+{{- else -}}
+echo "NOT LAPTOP"
+{{- end -}}
+
+{{- end -}}
+
