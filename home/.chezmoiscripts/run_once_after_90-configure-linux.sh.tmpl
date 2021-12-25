@@ -1,0 +1,6 @@
+{{- if (eq .chezmoi.os "linux") -}}
+
+{{- template bash-settings -}}
+
+{{- template "chassis" -}}
+{{ end -}}
