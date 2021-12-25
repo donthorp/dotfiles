@@ -1,0 +1,49 @@
+{{ if (eq .chezmoi.os "linux") -}}
+{{ template "bash-settings.tmpl" }}
+{{ if (eq .chezmoi.osRelease.id "pop" "debian" "ubuntu") -}}
+
+packages=(
+	ack
+	dos2unix
+	gawk
+	git-extras
+	gnupg
+	default-jre
+	default-jdk
+	leiningen
+	python3.9
+	python3-pip
+	vim
+)
+
+snaps=()
+classic_snaps=(
+	slack
+)
+
+# Add Wavebox.io
+
+sudo apt-key list 2>/dev/null  | grep wavebox > /dev/null
+if [ ! $? -eq 0 ]; then
+	sudo wget -qO - https://wavebox.io/dl/client/repo/archive.key | sudo apt-key add -
+fi
+
+if [ ! -f /etc/apt/sources.list.d/wavebox.list ]; then
+	echo "deb https://wavebox.io/dl/client/repo/ x86_64/" | sudo tee /etc/apt/sources.list.d/wavebox.list
+fi
+
+packages+=( wavebox )
+
+sudo apt update
+sudo apt install -y ${packages[@]}
+
+for snap in ${snaps[@]}; do
+	sudo snap install $snap
+done
+
+for classic_snap in ${classic_snaps[@]}; do
+	sudo snap install $classic_snap --classic
+done
+
+{{ end }}
+{{ end -}}
