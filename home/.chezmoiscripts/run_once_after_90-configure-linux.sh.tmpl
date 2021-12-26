@@ -10,6 +10,10 @@ echo "Configuring laptop to work with lid closed"
 gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action nothing
 gsettings set org.gnome.settings-daemon.plugins.power lid-close-suspend-with-external-monitor false
 
+echo "Configuring Hotkeys"
+
+gsettings set org.gnome.desktop.wm.keybindings activate-window-menu "['<Primary>space']"
+
 {{- end }}
 {{- end }}
 {{ "" }}
