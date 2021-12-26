@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=/opt/wavebox.io/wavebox/wavebox-launcher
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_US]=Wavebox
+Name=Wavebox
+Comment[en_US]=Wavebox.io chrome on steroids.
+Comment=Wavebox.io chrome on steroids.
