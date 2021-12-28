@@ -37,8 +37,8 @@ if [ ! $? -eq 0 ]; then
 	sudo wget -qO - https://wavebox.io/dl/client/repo/archive.key | sudo apt-key add -
 fi
 
-if [ ! -f /etc/apt/sources.list.d/wavebox.list ]; then
-	echo "deb [arch=amd64] https://download.wavebox.app/stable/linux/deb/ amd64/" | sudo tee /etc/apt/sources.list.d/wavebox.list
+if [ ! -f /etc/apt/sources.list.d/wavebox-stable.list ]; then
+	echo "deb [arch=amd64] https://download.wavebox.app/stable/linux/deb/ amd64/" | sudo tee /etc/apt/sources.list.d/wavebox-stable.list
 fi
 
 packages+=( 
