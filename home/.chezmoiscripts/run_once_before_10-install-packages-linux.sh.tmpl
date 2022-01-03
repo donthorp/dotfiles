@@ -21,6 +21,7 @@ snaps=(
 	standard-notes
 )
 classic_snaps=(
+	code
 	slack
 )
 
@@ -61,11 +62,12 @@ for classic_snap in ${classic_snaps[@]}; do
 	sudo snap install $classic_snap --classic
 done
 
+{{ if (eq .chezmoi.arch "amd64") }}
+
 # =====================
 # Add Google Chrome
 # =====================
 
-{{ if (eq .chezmoi.arch "amd64") }}
 which google-chrome > /dev/null
 if [ ! $? -eq 0 ]; then
 	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -74,6 +76,7 @@ if [ ! $? -eq 0 ]; then
 else
 	echo "Google Chrome Stable is already installed."
 fi
+
 {{ end }}
 
 {{ end }}
