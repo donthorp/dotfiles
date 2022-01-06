@@ -1,0 +1,33 @@
+#! /usr/bin/env bb
+
+;; Simple script for seeing what packages are new
+;;
+;; Author: Don Thorp
+;; Created: 6 Jan 2022
+;;
+
+(ns script
+  (:require
+   [babashka.fs :as fs]
+   [clojure.java.shell :as shell :refer [sh]]
+   [clojure.string :as str]))
+
+(def bash (str (fs/which "bash")))
+
+(defn apt-update []
+  (sh bash "-c" "sudo apt update -qq"))
+
+(defn apt-upgradable []
+  (sh bash "-c" "sudo apt list --upgradable"))
+
+(defn snap-refresh []
+  (sh bash "-c" "sudo snap refresh --list"))
+
+(let [r (apt-update)
+      o (:out r)]
+  (println "APT:" (:out r))
+  (when (str/includes? o "--upgradable")
+        (println (:out (apt-upgradable)))))
+
+;; For some reason snap only writes to :err and not :out
+(println "SNAP:" (:err (snap-refresh)))

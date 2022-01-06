@@ -6,9 +6,6 @@ alias cz=chezmoi
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 
-# At some point this should probably move to a script and cover apt, snap, and flatpak
-alias whats-new="sudo apt update && sudo apt list --upgradable"
-
 # Python
 export PIPX_BIN_DIR=~/bin
 
