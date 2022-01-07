@@ -1,0 +1,4 @@
+#! /usr/bin/env bash
+
+# sudo sed -i -e 's/http:\/\/us.archive/mirror:\/\/mirrors/' -e 's/\/ubuntu\//\/mirrors.txt/' /etc/apt/sources.list
+sudo sed -i -e 's/mirror:\/\/mirrors/http:\/\/us.archive/' -e 's/\/mirrors.txt/\/ubuntu\//' /etc/apt/sources.list
