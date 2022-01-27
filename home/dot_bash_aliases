@@ -14,6 +14,7 @@ export PIPX_BIN_DIR=~/bin
 
 alias python="/usr/bin/env python3"
 alias pip="/usr/bin/env pip3"
+alias svenv="source venv/bin/activate"
 
 # Tradeswell 
 alias tw-gh-repos="gh repo list Tradeswell --limit 100 | grep ^Tradeswell | cut -f 1 | sed -e 's/Tradeswell\///' | sort"
