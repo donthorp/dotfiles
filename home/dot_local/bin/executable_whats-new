@@ -23,6 +23,9 @@
 (defn snap-refresh []
   (sh bash "-c" "sudo snap refresh --list"))
 
+(defn flatpak-upgrades []
+  (sh bash "-c" "flatpak remote-ls --updates"))
+
 (let [r (apt-update)
       o (:out r)]
   (println "APT:" (:out r))
@@ -31,3 +34,9 @@
 
 ;; For some reason snap only writes to :err and not :out
 (println "SNAP:" (:err (snap-refresh)))
+
+(let [r (flatpak-upgrades)
+      o (:out r)]
+  (if (= (count o) 0)
+    (println "FLATPAK: All flatpaks are up to date")
+    (println "FLATPAK:\n" (:out (flatpak-upgrades)))))
