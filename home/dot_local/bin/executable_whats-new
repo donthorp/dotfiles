@@ -32,8 +32,12 @@
   (when (str/includes? o "--upgradable")
         (println (:out (apt-upgradable)))))
 
-;; For some reason snap only writes to :err and not :out
-(println "SNAP:" (:err (snap-refresh)))
+(let [r (snap-refresh)
+      o (:out r)
+      e (:err r)]
+  (if (= (count e) 0)
+    (println "SNAP:\n" o)
+    (println "SNAP:" e)))
 
 (let [r (flatpak-upgrades)
       o (:out r)]
