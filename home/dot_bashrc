@@ -133,3 +133,6 @@ for CFG in $HOME/.ssh/config.d/*; do
   echo "" >> $HOME/.ssh/config
   cat $CFG >> $HOME/.ssh/config
 done
+
+# Initialize Starship
+eval "$(starship init bash)"
