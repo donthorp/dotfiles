@@ -1,6 +1,10 @@
+[shlvl]
+disabled = false
+threshold = 1
+
 [git_branch]
 symbol = "🌱 "
-truncation_length = 4
+truncation_length = 30
 truncation_symbol = ""
 
 [git_commit]
