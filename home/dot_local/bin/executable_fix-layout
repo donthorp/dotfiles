@@ -1,0 +1,84 @@
+#! /usr/bin/env bb
+
+;; A script to deal with arranging my main desktop
+;; when it moves them when returning from sleep.
+;;
+;; Author : Don Thorp
+;; Created: 17 Feb 2022
+;; 
+;; You can create a layout.edn file by loading this up in a repl and
+;; dumping the config. The coordinates will have to be tweaked as it
+;; doesn't seem each window is manipulated the same way.
+;;
+
+(ns script
+  (:require
+   [babashka.fs :as fs]
+   [clojure.edn :as edn]
+   [clojure.java.io :as io]
+   [clojure.pprint :refer [pprint]]
+   [clojure.java.shell :as shell :refer [sh]]
+   [clojure.string :as str]))
+
+(def bash (str (fs/which "bash")))
+
+(def wmctrl (str (fs/which "wmctrl")))
+
+(defn env [n] (str (System/getenv n)))
+
+(def config-file (str/join "/" [(env "HOME") ".config/layout.edn"]))
+
+(defn load-config 
+  ([] (load-config config-file))
+  ([config] (edn/read-string (slurp (io/file config)))))
+
+(defn to-int-map [k v]
+  {k (Integer/parseInt v)})
+
+(defn get-current-layout []
+    (str/split-lines (:out (sh bash "-c" (str/join " " [wmctrl "-lxG"])))))
+
+(defn move-window 
+  ([m] (move-window (:name m) (:x m) (:y m) (:w m) (:h m)))
+  ([n x y] (move-window n x y -1 -1))
+  ([n x y w h]
+   (sh bash "-c" (format "wmctrl -r \"%s\" -e 0,%d,%d,%d,%d" n x y w h))))
+
+(defn parse-row [l]
+    (let [[_ did x y w h cls _ & name] (str/split l #"\s+")]
+      (into {} [
+                (to-int-map :did did) 
+                (to-int-map :x x) 
+                (to-int-map :y y) 
+                (to-int-map :w w) 
+                (to-int-map :h h) 
+                {:cls cls}
+                {:name (str/join " " name)}])))
+
+(defn parse-layout []
+  (mapv #(parse-row %) (get-current-layout)))
+
+(defn windows-on-desktop [win id]
+  (filter #(= (:did %) 0) win))
+
+(defn desktop-0 [win] 
+  (windows-on-desktop win 0))
+
+(defn dump-current-layout []
+  (pprint (parse-layout)))
+
+(defn fix-layout []
+  (let [config (or (load-config) [])]
+    (mapv #(move-window %) config)))
+
+(comment
+  (parse-layout)
+  (desktop-0 (parse-layout))
+  (println (move-window "Wavebox Mini" 100 100 200 200))
+  (dump-current-layout)
+  (load-config)
+  (fix-layout)
+  ,)
+
+(fix-layout)
+(print)
