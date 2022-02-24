@@ -39,6 +39,10 @@ repositories=(
 	ppa:agornostal/ulauncher
 )
 
+flatpaks=(
+	https://flathub.org/repo/appstream/org.gimp.GIMP.flatpakref
+)
+
 # =====================
 # Add Wavebox.io
 # =====================
@@ -133,6 +137,10 @@ if [ ! $? -eq 0 ]; then
 else
 	echo "Google Chrome Stable is already installed."
 fi
+
+for fp in ${flatpaks[@]}; do
+	sudo flatpak install --noninteractive --or-update $fp || true
+done
 
 {{ end }}
 
