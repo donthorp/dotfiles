@@ -16,6 +16,9 @@ gsettings set org.gnome.desktop.wm.keybindings activate-window-menu "['<Primary>
 gsettings set org.gnome.settings-daemon.plugins.media-keys area-screenshot-clip "['<Primary><Shift>Print', '<Shift><Alt>dollar']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys window-screenshot-clip "['<Primary><Alt>Print', '<Shift><Alt>percent']"
 
+echo "Configuring center windows on launch"
+gsettings set org.gnome.mutter center-new-windows true
+
 {{- end }}
 {{- end }}
 {{ "" }}
