@@ -116,6 +116,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
+export EDITOR=nvim
+
 echo "Loading local secrets..."
 export SECRETS_DIR=~/.local/secrets
 
