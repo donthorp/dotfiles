@@ -1,0 +1,15 @@
+# Configuration for Tradeswell specific expansions
+
+matches:
+  # Google Meet Shortcuts
+  - trigger: "!dj"
+    replace: "don-jesse"
+  - trigger: "!dk"
+    replace: "don-karen"
+
+  # Tradeswell Services
+  - trigger: "!1pw"
+    replace: "https://tradeswell.1password.com/home"
+  - trigger: "!jira"
+    replace: "https://tradeswell.atlassian.net/jira/your-work"
+
