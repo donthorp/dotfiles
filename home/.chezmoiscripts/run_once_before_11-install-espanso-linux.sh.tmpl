@@ -1,0 +1,20 @@
+{{ if (eq .chezmoi.os "linux") -}}
+{{ template "bash-settings.tmpl" }}
+{{ if (eq .chezmoi.osRelease.id "pop" "debian" "ubuntu") -}}
+
+# =====================
+# Add Espanso
+# =====================
+
+if [ -z $(snap list | grep "^espanso") ]; then
+    echo "Installing espanso"
+    sudo snap install espanso --classic --channel=latest/edge
+    espanso service register
+    echo "ATTENTION: run 'espanso start' to finish installation"
+else
+    echo "Espanso latest/edge already installed"
+fi
+
+{{ end }}
+{{ end -}}
+

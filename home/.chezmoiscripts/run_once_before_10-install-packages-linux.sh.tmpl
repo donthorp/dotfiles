@@ -138,8 +138,12 @@ else
 	echo "Google Chrome Stable is already installed."
 fi
 
+# =====================
+# Add Flatpacks
+# =====================
+
 for fp in ${flatpaks[@]}; do
-	sudo flatpak install --noninteractive --or-update $fp || true
+	sudo flatpak install --noninteractive $fp || true
 done
 
 {{ end }}
