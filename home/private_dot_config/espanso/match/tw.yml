@@ -12,4 +12,5 @@ matches:
     replace: "https://tradeswell.1password.com/home"
   - trigger: "!jira"
     replace: "https://tradeswell.atlassian.net/jira/your-work"
-
+  - trigger: "!zdbypass"
+    replace: "https://tradeswell.zendesk.com/access/sso_bypass"
