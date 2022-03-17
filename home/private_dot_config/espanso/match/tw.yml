@@ -14,3 +14,8 @@ matches:
     replace: "https://tradeswell.atlassian.net/jira/your-work"
   - trigger: "!zdbypass"
     replace: "https://tradeswell.zendesk.com/access/sso_bypass"
+  - trigger: "!hc"
+    replace: "https://help.tradeswell.com/hc/en-us"
+  - trigger: "!msadmin"
+    replace: "https://admin.microsoft.com/adminportal/home?#/homepage"
+
