@@ -1,5 +1,7 @@
 #! /usr/bin/env bb
 
+;; vim: set filetype=clojure:
+;;
 ;; A script to deal with arranging my main desktop
 ;; when it moves them when returning from sleep.
 ;;
