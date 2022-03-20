@@ -42,7 +42,9 @@
   ([m] (move-window (:name m) (:x m) (:y m) (:w m) (:h m)))
   ([n x y] (move-window n x y -1 -1))
   ([n x y w h]
-   (sh bash "-c" (format "wmctrl -r \"%s\" -e 0,%d,%d,%d,%d" n x y w h))))
+   (let [cmd (format "wmctrl -r \"%s\" -e 0,%d,%d,%d,%d" n x y w h)]
+     (println cmd)
+     (sh bash "-c" cmd))))
 
 (defn parse-row [l]
     (let [[_ did x y w h cls _ & name] (str/split l #"\s+")]
