@@ -40,17 +40,10 @@
 (defn get-current-layout []
     (str/split-lines (:out (sh bash "-c" (str/join " " [wmctrl "-lxG"])))))
 
-(defn move-window 
-  ([m] (move-window (:name m) (:x m) (:y m) (:w m) (:h m)))
-  ([n x y] (move-window n x y -1 -1))
-  ([n x y w h]
-   (let [cmd (format "wmctrl -r \"%s\" -e 0,%d,%d,%d,%d" n x y w h)]
-     (println cmd)
-     (sh bash "-c" cmd))))
-
 (defn parse-row [l]
-    (let [[_ did x y w h cls _ & name] (str/split l #"\s+")]
+    (let [[wid did x y w h cls _ & name] (str/split l #"\s+")]
       (into {} [
+                {:wid wid}
                 (to-int-map :did did) 
                 (to-int-map :x x) 
                 (to-int-map :y y) 
@@ -62,8 +55,32 @@
 (defn parse-layout []
   (mapv #(parse-row %) (get-current-layout)))
 
+(def layout (parse-layout))
+
+(defn find-window-id [did n]
+  (:wid 
+    (first 
+      (filter 
+        (fn [m] 
+          (and
+            (= did (:did m))
+            (str/includes? (:name m) n)))
+        layout))))
+
+(comment
+  (find-window-id 0 "Terminal"))
+
+(defn move-window 
+  ([did m] (move-window did (:name m) (:x m) (:y m) (:w m) (:h m)))
+  ([did n x y] (move-window did n x y -1 -1))
+  ([did n x y w h]
+   (let [wid (find-window-id did n)
+         cmd (format "wmctrl -i -r \"%s\" -e %d,%d,%d,%d,%d" wid did x y w h)]
+     (println cmd)
+     (sh bash "-c" cmd))))
+
 (defn windows-on-desktop [win id]
-  (filter #(= (:did %) 0) win))
+  (filter #(= (:did %) id) win))
 
 (defn desktop-0 [win] 
   (windows-on-desktop win 0))
@@ -73,12 +90,13 @@
 
 (defn fix-layout []
   (let [config (or (load-config) [])]
-    (mapv #(move-window %) config)))
+    (mapv #(move-window 0 %) config)))
 
 (comment
   (parse-layout)
   (desktop-0 (parse-layout))
   (println (move-window "Wavebox Mini" 100 100 200 200))
+  (println layout)
   (dump-current-layout)
   (load-config)
   (fix-layout)
