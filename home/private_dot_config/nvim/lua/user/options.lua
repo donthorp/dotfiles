@@ -6,8 +6,9 @@
 
 local set = vim.opt
 
-set.background = 'light'
 set.termguicolors = true
+set.background = 'light'
+
 set.syntax = 'on'
 set.number = true
 set.numberwidth = 4
@@ -31,9 +32,6 @@ set.shiftwidth = 2
 set.expandtab = true
 set.smartindent = true
 
--- GUI Options
-vim.cmd("set guifont=FiraCode-Regular:h15")
-
 -- Mouse Options
 set.mouse = 'nv'
 
@@ -41,3 +39,7 @@ set.mouse = 'nv'
 
 set.splitbelow = true -- Horizontals open below current window
 set.splitright = true -- Verticals open to the right of the current window
+
+-- Set leader timeout (ms)
+set.timeoutlen = 300
+

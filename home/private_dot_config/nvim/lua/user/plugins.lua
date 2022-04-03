@@ -45,9 +45,25 @@ return packer.startup(function(use)
   use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
   use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
 
+  -- Theme support
+  use {
+    "mcchrish/zenbones.nvim",
+    -- https://github.com/mcchrish/zenbones.nvim/blob/main/doc/zenbones.md
+    -- 
+    -- Optionally install Lush. Allows for more configuration or extending the colorscheme
+    -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+    -- In Vim, compat mode is turned on as Lush only works in Neovim.
+    requires = "rktjmp/lush.nvim"
+  }
+
   -- Clojure support
   use "Olical/conjure"
 
+  -- Whichkey Support
+  use {
+    'AckslD/nvim-whichkey-setup.lua',
+    requires = {'liuchengxu/vim-which-key'},
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

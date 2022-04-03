@@ -36,3 +36,7 @@ km("t", "<C-h>", "C-\\><C-N><C-w>h", term_opts)
 km("t", "<C-j>", "C-\\><C-N><C-w>j", term_opts)
 km("t", "<C-k>", "C-\\><C-N><C-w>k", term_opts)
 km("t", "<C-l>", "C-\\><C-N><C-w>l", term_opts)
+
+-- Which Key Configurations
+
+km("n", "<SPACE>", ":<C-u>WhichKey '<Space>'<CR>", opts)
