@@ -61,8 +61,7 @@ return packer.startup(function(use)
 
   -- Whichkey Support
   use {
-    'AckslD/nvim-whichkey-setup.lua',
-    requires = {'liuchengxu/vim-which-key'},
+    "folke/which-key.nvim",
   }
 
   -- Automatically set up your configuration after cloning packer.nvim

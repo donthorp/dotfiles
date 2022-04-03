@@ -11,9 +11,9 @@ local term_opts = {
 local km = vim.api.nvim_set_keymap
 
 -- Remap space as leader key
-km("", "<Space>", "<Nop>", opts)
+-- km("n", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = ","
 
 -- Normal Mode
 -- Easier window navigation
@@ -38,5 +38,9 @@ km("t", "<C-k>", "C-\\><C-N><C-w>k", term_opts)
 km("t", "<C-l>", "C-\\><C-N><C-w>l", term_opts)
 
 -- Which Key Configurations
+local wk = require("which-key")
 
-km("n", "<SPACE>", ":<C-u>WhichKey '<Space>'<CR>", opts)
+wk.setup { 
+--  triggers = {"<leader>"}
+}
+
