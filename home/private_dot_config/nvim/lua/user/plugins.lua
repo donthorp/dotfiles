@@ -64,6 +64,12 @@ return packer.startup(function(use)
     "folke/which-key.nvim",
   }
 
+  -- Database Support
+  use { 'tpope/vim-dadbod' }
+  use { 'kristijanhusak/vim-dadbod-ui' }
+
+  vim.g.db_ui_save_location = '~/.config/db-ui'
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if PACKER_BOOTSTRAP then

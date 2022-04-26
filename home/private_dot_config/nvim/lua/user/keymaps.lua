@@ -37,10 +37,16 @@ km("t", "<C-j>", "C-\\><C-N><C-w>j", term_opts)
 km("t", "<C-k>", "C-\\><C-N><C-w>k", term_opts)
 km("t", "<C-l>", "C-\\><C-N><C-w>l", term_opts)
 
+-- Database: DadBod
+
+km("n", "<leader>du", ":DBUIToggle<CR>", opts)
+km("n", "<leader>df", ":DBUIFindBuffer<CR>", opts)
+km("n", "<leader>dr", ":DBUIiRenameBuffer<CR>", opts)
+km("n", "<leader>dl", ":DBUILastQueryInfo<CR>", opts)
+
+
 -- Which Key Configurations
 local wk = require("which-key")
 
-wk.setup { 
---  triggers = {"<leader>"}
-}
+wk.setup { }
 
