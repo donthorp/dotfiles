@@ -44,6 +44,8 @@ km("n", "<leader>df", ":DBUIFindBuffer<CR>", opts)
 km("n", "<leader>dr", ":DBUIiRenameBuffer<CR>", opts)
 km("n", "<leader>dl", ":DBUILastQueryInfo<CR>", opts)
 
+-- Legendary Configurations
+require('legendary').setup()
 
 -- Which Key Configurations
 local wk = require("which-key")

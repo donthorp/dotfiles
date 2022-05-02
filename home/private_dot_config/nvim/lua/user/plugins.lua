@@ -64,6 +64,24 @@ return packer.startup(function(use)
     "folke/which-key.nvim",
   }
 
+  -- Legendary
+  use {
+    "mrjones2014/legendary.nvim"
+  }
+
+  -- Telescope
+  use {
+    "nvim-telescope/telescope.nvim",
+    requires = {
+      {"nvim-lua/plenary.nvim"}
+    }
+  }
+
+  -- Dressing
+  use {
+    "stevearc/dressing.nvim"
+  }
+
   -- Database Support
   use { 'tpope/vim-dadbod' }
   use { 'kristijanhusak/vim-dadbod-ui' }
