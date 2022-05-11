@@ -56,6 +56,12 @@ return packer.startup(function(use)
     requires = "rktjmp/lush.nvim"
   }
 
+  -- Treesitter
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate'
+  }
+
   -- Clojure support
   use "Olical/conjure"
 
