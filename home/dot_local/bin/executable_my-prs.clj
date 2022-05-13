@@ -22,7 +22,7 @@
 (defn format-pr [pr]
   (format (str "- `%s` - **[#%d](%s)**"
                "\n    - %s"
-               "\n    - %s" )
+               "\n    - %s\n" )
           (get-in pr [:repository :nameWithOwner])
           (:number pr)
           (:url pr)
