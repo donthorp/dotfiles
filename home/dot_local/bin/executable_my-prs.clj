@@ -20,7 +20,7 @@
            (:out (sh "/usr/bin/env" "bash" "-c" cmd)) true))
 
 (defn format-pr [pr]
-  (format (str "- `%s` - **[#%d](%s)**"
+  (format (str "- [ ] `%s` - **[#%d](%s)**"
                "\n    - %s"
                "\n    - %s\n" )
           (get-in pr [:repository :nameWithOwner])
