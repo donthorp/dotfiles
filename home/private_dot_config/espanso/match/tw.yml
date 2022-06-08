@@ -16,6 +16,8 @@ matches:
     replace: "https://tradeswell.zendesk.com/access/sso_bypass"
   - trigger: "!hc"
     replace: "https://help.tradeswell.com/hc/en-us"
+  - trigger: "!hd"
+    replace: "https://helpdesk.tradeswell.com/hc/en-us/requests/new?ticket_form_id=5355357580059"
   - trigger: "!msadmin"
     replace: "https://admin.microsoft.com/adminportal/home?#/homepage"
 
