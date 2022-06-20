@@ -21,11 +21,11 @@
 (defn get-install [] (curl/get "https://raw.githubusercontent.com/babashka/babashka/master/install"))
 
 (defn bash [& args]
-  (sh "/usr/bin/env" "bash" "-c" (str "'" (str/join " " args) "'")))
+  (sh "sudo" "/usr/bin/env" "bash" "-c" (str "'" (str/join " " args) "'")))
 
 (let [install (fs/delete-on-exit (File/createTempFile "install" ""))]
   (spit install (:body (get-install)))
   (.setExecutable install true)
-  (let [r (sh (str install))]
+  (let [r (sh "sudo" (str install))]
     (println (:out r))
     (println (:err r))))
