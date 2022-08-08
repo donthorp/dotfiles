@@ -25,3 +25,8 @@ fi
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
+
+# set PATH so it includes Babashka from /opt
+if [ -d /opt/bb ] ; then
+  PATH=/opt/bb:$PATH
+fi
