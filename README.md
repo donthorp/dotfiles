@@ -50,10 +50,17 @@ ssh-keygen -t ed25519 -C "don@donthorp.net" -f "$HOSTNAME-github"
 cat "$HOSTNAME-github.pub"
 echo "Add new key at https://github.com/settings/keys"
 ```
-### Test key
+### Test Key
 
 ```sh
 ssh -T git@github.com
+```
+
+## Clone this repo
+
+```sh
+cd ~
+git clone git@github.com:donthorp/dotfiles.git
 ```
 
 ## Github CLI
