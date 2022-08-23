@@ -13,11 +13,15 @@ sudo chmod +x /usr/share/screen-resolution-extra/nvidia-polkit
 sudo nvidia-settings
 ```
 
-## Update Packages
+## Update Packages and Install Required Tools
+
+### Pop OS
 
 ```bash
 sudo apt update
 sudo apt upgrade -y
+sudo apt install snapd -y
+snap install chezmoi --classic
 ```
 You may need to restart to make the initial update effective.
 
