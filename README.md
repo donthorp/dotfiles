@@ -67,6 +67,12 @@ cd ~
 git clone git@github.com:donthorp/dotfiles.git
 ```
 
+## Pull and Apply dotfiles
+
+```sh
+chezmoi init git@github.com:donthorp/dotfiles.git
+```
+
 ## Github CLI
 
 After applying the templates to the system, you'll need to login to the Github CLI client.
