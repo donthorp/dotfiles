@@ -37,6 +37,25 @@ sudo hostname -b boros02
 - `boros01` - Oryx Pro
 - `artemis01` - Gaming Machine - 23 Aug 2022
 
+## Configure SSH and generate Github Key
+
+Use the naming convention `$HOST-github`
+
+```sh
+cd ~
+mkdir .ssh
+chmod 700 .ssh
+cd .ssh
+ssh-keygen -t ed25519 -C "don@donthorp.net" -f "$HOSTNAME-github"
+cat "$HOSTNAME-github.pub"
+echo "Add new key at https://github.com/settings/keys"
+```
+### Test key
+
+```sh
+ssh -T git@github.com
+```
+
 ## Github CLI
 
 After applying the templates to the system, you'll need to login to the Github CLI client.
