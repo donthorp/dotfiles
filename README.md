@@ -72,6 +72,9 @@ git clone git@github.com:donthorp/dotfiles.git
 ```sh
 chezmoi init git@github.com:donthorp/dotfiles.git
 ```
+## Install Obsidian
+
+`flatpak --user install md.obsidian.Obsidian -y`
 
 ## Github CLI
 
