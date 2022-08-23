@@ -13,6 +13,15 @@ sudo chmod +x /usr/share/screen-resolution-extra/nvidia-polkit
 sudo nvidia-settings
 ```
 
+## Update Packages
+
+```bash
+sudo apt update
+sudo apt upgrade -y
+s
+```
+You may need to restart to make the initial update effective.
+
 ## Github CLI
 
 After applying the templates to the system, you'll need to login to the Github CLI client.
