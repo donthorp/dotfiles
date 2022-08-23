@@ -18,9 +18,24 @@ sudo nvidia-settings
 ```bash
 sudo apt update
 sudo apt upgrade -y
-s
 ```
 You may need to restart to make the initial update effective.
+
+## Configure Host Name
+Use `artemisNN` for desktop machines. 
+
+```sh
+sudo hostname -b artemis02
+```
+
+Use `borosNN` for laptops
+```sh
+sudo hostname -b boros02
+```
+
+### Used Names
+- `boros01` - Oryx Pro
+- `artemis01` - Gaming Machine - 23 Aug 2022
 
 ## Github CLI
 
