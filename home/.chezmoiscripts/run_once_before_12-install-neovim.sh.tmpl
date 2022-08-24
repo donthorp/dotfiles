@@ -6,16 +6,22 @@
 # Install Neovim
 # =====================
 
-if [ ! -f "/usr/local/bin/nvim.appimage" ]; then
-  echo "Installing Neovim"
-  cd /usr/local/bin
-  curl -LO https://github.com/neovim/neovim/releases/download/v0.7.2/nvim.appimage
-  chmod u+x nvim.appimage
-  cd -
-else
-  echo "Neovim is already installed"
-  nvim --version
-fi
+echo "Installing Neovim"
+cd /usr/local/bin
+sudo curl -LO https://github.com/neovim/neovim/releases/download/v0.7.2/nvim.appimage
+sudo chmod 755 nvim.appimage
+cd -
+
+CUSTOM_NVIM_PATH=/usr/local/bin/nvim.appimage
+# Set the above with the correct path, then run the rest of the commands:
+
+set -u
+sudo update-alternatives --install /usr/bin/ex ex "${CUSTOM_NVIM_PATH}" 110
+sudo update-alternatives --install /usr/bin/vi vi "${CUSTOM_NVIM_PATH}" 110
+sudo update-alternatives --install /usr/bin/view view "${CUSTOM_NVIM_PATH}" 110
+sudo update-alternatives --install /usr/bin/vim vim "${CUSTOM_NVIM_PATH}" 110
+sudo update-alternatives --install /usr/bin/vimdiff vimdiff "${CUSTOM_NVIM_PATH}" 110
+sudo update-alternatives --install /usr/bin/nvim nvim "${CUSTOM_NVIM_PATH}" 110
 
 {{ end }}
 {{ end -}}
