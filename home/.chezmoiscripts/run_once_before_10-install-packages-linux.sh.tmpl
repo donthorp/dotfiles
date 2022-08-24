@@ -21,7 +21,7 @@ packages=(
   postgresql-client-common
   postgresql-client
 	python3-pip
-	python3.8-venv
+#	python3.8-venv
   slack-desktop
   wmctrl
   xclip
@@ -51,79 +51,32 @@ flatpaks=(
 # Add Wavebox.io
 # =====================
 
-sudo apt-key list 2>/dev/null  | grep wavebox > /dev/null
-if [ ! $? -eq 0 ]; then
-	sudo wget -qO - https://wavebox.io/dl/client/repo/archive.key | sudo apt-key add -
-fi
+#sudo apt-key list 2>/dev/null  | grep wavebox > /dev/null
+#if [ ! $? -eq 0 ]; then
+#	sudo wget -qO - https://wavebox.io/dl/client/repo/archive.key | sudo apt-key add -
+#fi
 
-if [ ! -f /etc/apt/sources.list.d/wavebox-stable.list ]; then
-	echo "deb [arch=amd64] https://download.wavebox.app/stable/linux/deb/ amd64/" | sudo tee /etc/apt/sources.list.d/wavebox-stable.list
-fi
-
-# =====================
-# Add Github CLI
-# =====================
-
-if [ ! -f /usr/share/keyrigngs/githubcli-archive-keyring.gpg ]; then
-				curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
-fi
-
-if [ ! -f /etc/apt/sources.list.d/github-cli.list ]; then
-				echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-fi
-
-# =====================
-# Add Docker
-# =====================
-
-# Ensure old docker items are removed
-
-sudo apt remove -y docker || true
-sudo apt remove -y docker-engine || true
-sudo apt remove -y docker.io || true
-sudo apt remove -y containerd || true
-sudo apt remove -y runc || true
-
-if [ ! -f /usr/share/keyrings/docker-archive-keyring.gpg ]; then
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-fi
-
-if [ ! -f /etc/apt/sources.list.d/docker.list ]; then
-    echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-fi
-
-grep docker /etc/group > /dev/null
-
-if [ ! $? -eq 0 ]; then 
-    sudo groupadd docker
-fi
-
-sudo usermod -aG docker $USER
+#if [ ! -f /etc/apt/sources.list.d/wavebox-stable.list ]; then
+#	echo "deb [arch=amd64] https://download.wavebox.app/stable/linux/deb/ amd64/" | sudo tee /etc/apt/sources.list.d/wavebox-stable.list
+#fi
 
 # =====================
 # Add JFrog CLI
 # =====================
 
-! sudo apt-key list 2>/dev/null | grep jfrog > /dev/null
-if [ $? -eq 0 ]; then
-	sudo wget -qO - https://releases.jfrog.io/artifactory/jfrog-gpg-public/jfrog_public_gpg.key | sudo apt-key add -
-fi
+#! sudo apt-key list 2>/dev/null | grep jfrog > /dev/null
+#if [ $? -eq 0 ]; then
+#	sudo wget -qO - https://releases.jfrog.io/artifactory/jfrog-gpg-public/jfrog_public_gpg.key | sudo apt-key add -
+#fi
 
-if [ ! -f /etc/apt/sources.list.d/jfrog-cli.list ]; then
-  echo "deb https://releases.jfrog.io/artifactory/jfrog-debs focal contrib" | sudo tee /etc/apt/sources.list.d/jfrog-cli.list
-fi
+#if [ ! -f /etc/apt/sources.list.d/jfrog-cli.list ]; then
+#  echo "deb https://releases.jfrog.io/artifactory/jfrog-debs jammy contrib" | sudo tee /etc/apt/sources.list.d/jfrog-cli.list
+#fi
 
 packages+=( 
-    containerd.io
-    docker-ce
-    docker-ce-cli
-    docker-compose
-    gh
-    jfrog-cli-v2-jf
+#    jfrog-cli-v2-jf
     ulauncher
-    wavebox
+#    wavebox
 )
 
 for repository in ${repositories[@]}; do
@@ -148,14 +101,14 @@ done
 # Add Google Chrome
 # =====================
 
-which google-chrome > /dev/null
-if [ ! $? -eq 0 ]; then
-	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-	sudo apt install ./google-chrome-stable_current_amd64.deb
-	rm ./google-chrome-stable_current_amd64.deb
-else
-	echo "Google Chrome Stable is already installed."
-fi
+#! which google-chrome > /dev/null
+#if [ ! $? -eq 0 ]; then
+#	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#	sudo apt install ./google-chrome-stable_current_amd64.deb
+#	rm ./google-chrome-stable_current_amd64.deb
+#else
+#	echo "Google Chrome Stable is already installed."
+#fi
 
 # =====================
 # Add Flatpacks
