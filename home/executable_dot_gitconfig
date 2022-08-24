@@ -4,3 +4,6 @@
 [user]
 	email = don@donthorp.net
 	name = Don Thorp
+[pull]
+	ff = only
+	rebase = true
