@@ -1,4 +1,4 @@
-#! /usr/bin/env bb
+#! /opt/bb/bb
 
 ;; Extract PRs I need to review
 ;;
