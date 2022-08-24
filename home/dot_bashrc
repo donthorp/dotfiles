@@ -118,23 +118,57 @@ fi
 
 export EDITOR=nvim
 
-echo "Loading local secrets..."
 export SECRETS_DIR=~/.local/secrets
 
-for SECRET in $SECRETS_DIR/*; do
-  echo "  Adding secrets from: $SECRET"
-  source $SECRET
-done
+if [ ! -d $SECRETS_DIR ]; then
+  mkdir -p $SECRETS_DIR
+fi
+
+SECRETS=$(ls $SECRETS_DIR/* 2>&1 > /dev/null)
+if [ $? -eq 0 ]; then
+  echo "Loading local secrets..."
+  for SECRET in $SECRETS; do
+    echo "  Adding secrets from: $SECRET"
+    source $SECRET
+  done
+else
+    echo "No secrets exist in $SECRETS_DIR"
+fi
+
+SSH_CONFIG=$HOME/.ssh/config
+
 
 echo "Refreshing .ssh/config"
-rm $HOME/.ssh/config
-touch $HOME/.ssh/config
-chmod 600 $HOME/.ssh/config
+! rm  $SSH_CONFIG
+touch $SSH_CONFIG 
+chmod 600 $SSH_CONFIG
 
-for CFG in $HOME/.ssh/config.d/*; do
-  echo "" >> $HOME/.ssh/config
-  cat $CFG >> $HOME/.ssh/config
-done
+CONFIGS=$(ls $HOME/.ssh/config.d/* 2>&1 >/dev/null)
+
+if [ $? -eq 0 ]; then
+  for CFG in $HOME/.ssh/config.d/*; do
+    echo "" >> $HOME/.ssh/config
+    cat $CFG >> $HOME/.ssh/config
+  done
+else
+  echo "No ssh configs exist in $HOME/.ssh/config.d/*"
+fi
 
 # Initialize Starship
 eval "$(starship init bash)"
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+# set PATH so it includes Babashka from /opt
+if [ -d /opt/bb ] ; then
+  PATH=/opt/bb:$PATH
+fi
+
