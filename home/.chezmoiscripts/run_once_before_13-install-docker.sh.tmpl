@@ -1,0 +1,49 @@
+{{ if (eq .chezmoi.os "linux") -}}
+{{ template "bash-settings.tmpl" }}
+{{ if (eq .chezmoi.osRelease.id "pop" "debian" "ubuntu") -}}
+
+# =====================
+# Add Docker
+# =====================
+
+# Ensure old docker items are removed
+echo "Installing Docker CE"
+
+sudo apt remove -y docker docker-engine docker.io containerd runc || true
+
+KEY=/etc/apt/keyrings/docker.gpg
+
+if [ ! -f $KEY ]; then
+  echo "Installing Docker GPG Key"
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o $KEY
+fi
+
+if [ ! -f /etc/apt/sources.list.d/docker.list ]; then
+  echo "Adding Docker Repository to APT sources"
+  echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=$KEY] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+fi
+
+rc=0
+grep docker /etc/group > /dev/null || rc=$?
+
+if [ ! $rc -eq 0 ]; then 
+  echo "Adding docker group to /etc/group"
+  sudo groupadd docker
+fi
+
+rc=0
+(grep docker /etc/group | grep $USER > /dev/null) || rc=$?
+
+if [ ! $rc -eq 0 ]; then
+  echo "Putting $USER in docker group"
+  sudo usermod -aG docker $USER
+fi
+
+sudo apt autoremove -y
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+{{ end }}
+{{ end -}}
