@@ -1,0 +1,26 @@
+{{ if (eq .chezmoi.os "linux") -}}
+{{ template "bash-settings.tmpl" }}
+{{ if (eq .chezmoi.osRelease.id "pop" "debian" "ubuntu") -}}
+
+# =====================
+# Add Github CLI
+# =====================
+
+KEY=/etc/apt/keyrings/githubcli.gpg
+
+if [ ! -f $KEY ]; then
+  echo "Adding Github Key File"
+  curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=$KEY
+fi
+
+if [ ! -f /etc/apt/sources.list.d/github-cli.list ]; then
+  echo "Adding Github CLI to APT Sources"
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=$KEY] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+fi
+
+sudo apt autoremove -y
+sudo apt update
+sudo apt install -y gh
+
+{{ end }}
+{{ end -}}
