@@ -10,15 +10,24 @@ echo "Configuring laptop to work with lid closed"
 gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action nothing
 gsettings set org.gnome.settings-daemon.plugins.power lid-close-suspend-with-external-monitor false
 
+{{- end }}
+
 echo "Configuring Hotkeys"
 
 gsettings set org.gnome.desktop.wm.keybindings activate-window-menu "['<Super>space']"
+
+{{- if (eq .chezmoi.osRelease.versionCodename "focal") }}
 gsettings set org.gnome.settings-daemon.plugins.media-keys area-screenshot-clip "['<Primary><Shift>Print', '<Shift><Alt>dollar']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys window-screenshot-clip "['<Primary><Alt>Print', '<Shift><Alt>percent']"
+{{- end }}
+
+{{- if (eq .chezmoi.osRelease.versionCodename "jammy") }}
+gsettings set org.gnome.shell.keybindings screenshot "['<Primary><Shift>Print', '<Shift><Alt>dollar']"
+gsettings set org.gnome.shell.keybindings screenshot-window "['<Primary><Alt>Print', '<Shift><Alt>percent']"
+{{- end }}
 
 echo "Configuring center windows on launch"
 gsettings set org.gnome.mutter center-new-windows true
 
-{{- end }}
 {{- end }}
 {{ "" }}
