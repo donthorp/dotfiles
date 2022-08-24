@@ -1,0 +1,22 @@
+{{ if (eq .chezmoi.os "linux") -}}
+{{ template "bash-settings.tmpl" }}
+{{ if (eq .chezmoi.osRelease.id "pop" "debian" "ubuntu") -}}
+
+# =====================
+# Install Neovim
+# =====================
+
+if [ ! -f "/usr/local/bin/nvim.appimage" ]; then
+  echo "Installing Neovim"
+  cd /usr/local/bin
+  curl -LO https://github.com/neovim/neovim/releases/download/v0.7.2/nvim.appimage
+  chmod u+x nvim.appimage
+  cd -
+else
+  echo "Neovim is already installed"
+  nvim --version
+fi
+
+{{ end }}
+{{ end -}}
+
