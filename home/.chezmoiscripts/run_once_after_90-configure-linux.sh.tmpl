@@ -22,8 +22,9 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys window-screenshot-cli
 {{- end }}
 
 {{- if (eq .chezmoi.osRelease.versionCodename "jammy") }}
-gsettings set org.gnome.shell.keybindings screenshot "['<Primary><Shift>Print', '<Shift><Alt>dollar']"
+gsettings set org.gnome.shell.keybindings screenshot "['<Primary><Shift>Print']"
 gsettings set org.gnome.shell.keybindings screenshot-window "['<Primary><Alt>Print', '<Shift><Alt>percent']"
+gsettings set org.gnome.shell.keybindings show-screenshot-ui "['Print', '<Shift><Alt>dollar']"
 {{- end }}
 
 echo "Configuring center windows on launch"
