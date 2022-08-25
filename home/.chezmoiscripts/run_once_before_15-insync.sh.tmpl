@@ -1,0 +1,31 @@
+{{ if (eq .chezmoi.os "linux") -}}
+{{ template "bash-settings.tmpl" }}
+{{ if (eq .chezmoi.osRelease.id "pop" "debian" "ubuntu") -}}
+
+# =====================
+# Add Insync
+# =====================
+
+KEY=/etc/apt/trusted.gpg.d/insync.gpg
+SRC=/etc/apt/sources.list.d/insync.list
+
+if [ ! -f "/root/.gnupg" ]; then
+  sudo gpg -k
+fi
+
+if [ ! -f $KEY ]; then
+  echo "Adding Insync Key File"
+  sudo gpg --no-default-keyring --keyring $KEY --keyserver keyserver.ubuntu.com --recv-keys ACCAF35C
+fi
+
+if [ ! -f $SRC ]; then
+  echo "Adding Insync to APT Sources"
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=$KEY] https://apt.insync.io/ubuntu {{ .chezmoi.osRelease.versionCodename }} non-free contrib" | sudo tee $SRC > /dev/null 
+fi
+
+sudo apt autoremove -y
+sudo apt update
+sudo apt install -y insync
+
+{{ end }}
+{{ end -}}
