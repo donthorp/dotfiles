@@ -1,0 +1,28 @@
+{{ if (eq .chezmoi.os "linux") -}}
+{{ template "bash-settings.tmpl" }}
+{{ if (eq .chezmoi.osRelease.id "pop" "debian" "ubuntu") -}}
+
+# =====================
+# Add Ledger Live
+# =====================
+
+URL=https://download.live.ledger.com/latest/linux
+LBIN=$HOME/.local/bin
+CMD=ledger-live-*.AppImage
+
+rc=`find /home/don/.local/bin/ -iname "$CMD" | wc -c`
+
+if [ $rc -eq 0 ]; then
+  cd $LBIN
+  wget --content-disposition $URL
+  LEDGER=`find $LBIN -iname $CMD`
+  chmod 755 $LEDGER
+  cd -
+  wget -q -O - https://raw.githubusercontent.com/LedgerHQ/udev-rules/master/add_udev_rules.sh | sudo bash
+  sudo add-apt-repository -y universe
+  sudo apt update
+  sudo apt install -y libfuse2
+fi
+
+{{ end }}
+{{ end -}}
